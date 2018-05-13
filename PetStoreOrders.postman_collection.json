@@ -1,0 +1,138 @@
+{
+	"info": {
+		"_postman_id": "9e78bd6c-1902-4b49-8d65-77512d724135",
+		"name": " Petstore orders",
+		"description": "This request collection include pet order creation and verification",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create an order for a pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea32d956-c836-4366-bc3a-9329f7d2389c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Response is valid and has body\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 400ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(400);",
+							"});",
+							"",
+							"pm.test(\"Order ID is created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(3);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "88c131a7-468a-484e-855a-655bc48c0d54",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 3,\r\n  \"petId\": -9223372036854775808,\r\n  \"quantity\": 12,\r\n  \"shipDate\": \"2018-05-10T20:38:51.491Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": true\r\n}"
+				},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/store/order",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"store",
+						"order"
+					]
+				},
+				"description": "This request tersts order creation for purchasing the pet."
+			},
+			"response": []
+		},
+		{
+			"name": " Find order by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "60bb2a32-8fd3-4f9e-aae8-b4c2604996ed",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Order ID is present\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(3);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/store/order/3",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"store",
+						"order",
+						"3"
+					]
+				},
+				"description": "This request tests that created order with specific ID is present in the store"
+			},
+			"response": []
+		}
+	]
+}
