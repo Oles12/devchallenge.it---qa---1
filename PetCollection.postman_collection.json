@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "052b34cc-78b6-403e-b052-4ffc8149b0f6",
+		"name": "PetCollection",
+		"description": "This collection of requests include CRUD operation verification for managing pet entities in the store",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4db92193-a874-483a-9d56-9d084375ea11",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has a body\", function () {",
+							"    pm.response.to.be.withBody;",
+							"});",
+							"",
+							"pm.test(\"Expected pet ID is present\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(12345);",
+							"});",
+							"",
+							"pm.test(\"Expected pet Name is present\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql('sharik');",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 12345,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"sharik\",\r\n  \"photoUrls\": [\r\n    \"https://images.pexels.com/photos/58997/pexels-photo-58997.jpeg\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}"
+				},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/pet",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				},
+				"description": "This request tests adding a new pet to the store.\nThe tests verify that pet is successfully created and has expected ID and Name."
+			},
+			"response": []
+		},
+		{
+			"name": "Verify pet created",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "88bc3efa-7ebc-412f-87df-41a161cbe5c5",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0033c317-9a6d-45e2-9f56-4d16d59c4023",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Response is valid and has body\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Expected pet ID is present in the store\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(12345);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/pet/12345",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"12345"
+					]
+				},
+				"description": "This request verifies that particular pet is exist in the store.\nThe tests verify that pet with specific ID is added to the store."
+			},
+			"response": []
+		},
+		{
+			"name": "Update pet name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "114770f8-46ca-4d27-9f11-d6874e4224f1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Pet Name is updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql('sharik_edited');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 12345,\r\n  \"category\": {\r\n    \"id\": 0,\r\n    \"name\": \"string\"\r\n  },\r\n  \"name\": \"sharik_edited\",\r\n  \"photoUrls\": [\r\n    \"https://images.pexels.com/photos/58997/pexels-photo-58997.jpeg\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}"
+				},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/pet",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				},
+				"description": "This request updates an existing pet in the store"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify pet updated",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e52f5075-c2db-41e6-8b32-20e96712caac",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Updated pet Name is present in the store\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql('sharik_edited');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/pet/12345",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"12345"
+					]
+				},
+				"description": "This request verifies that updated pet name is exist in the store."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete pet ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ab6a57c-1cf8-4dc5-a991-b1c963a1cdb0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/pet/12345",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"12345"
+					]
+				},
+				"description": "This request deletes particular pet in the store."
+			},
+			"response": []
+		},
+		{
+			"name": "Verify pet delited",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab745fb9-94d8-4ba7-a1b0-80f7d6abbd89",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Pet is deleted and not found in the store\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Pet not found\");",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://petstore.swagger.io/v2/pet/12345",
+					"protocol": "http",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"12345"
+					]
+				},
+				"description": "The request verifies particular pet delition in the store.\nTest verifies delition by appropriate status message and code (404)"
+			},
+			"response": []
+		}
+	]
+}
